@@ -1,0 +1,34 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  guardrails:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure no Copilot Studio sync state is tracked
+        run: |
+          if git ls-files | grep -E '(^|/)\.mcs/' ; then
+            echo "::error::Copilot Studio .mcs/ sync state must not be committed."
+            exit 1
+          fi
+          echo "OK: no .mcs/ files tracked."
+
+      - name: Ensure every agent has a settings file
+        run: |
+          status=0
+          for dir in agents/*/ ; do
+            [ -d "$dir" ] || continue
+            if [ ! -f "${dir}settings.mcs.yml" ]; then
+              echo "::error::Missing settings.mcs.yml in ${dir}"
+              status=1
+            fi
+          done
+          exit $status
