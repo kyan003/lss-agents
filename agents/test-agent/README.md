@@ -1,7 +1,19 @@
-# test-agent
+# test-agent (Action Table)
 
-Seed example Copilot Studio agent used to establish the repository structure.
-Replace with a real agent when development begins.
+Copilot Studio agent that turns meeting notes, transcripts, or Teams recaps into
+**standardized action items** for downstream activities.
+
+## Output
+
+From a single extraction the agent renders two ways:
+
+- **Human-readable (default)** — Meeting Summary + PM Action Table +
+  Supplementary Information, for management.
+- **JSON** — one locked JSON object for downstream automation, triggered by
+  `#json` or when the agent is called as a tool/flow.
+
+Instructions source: [`prompt-library/action-capture.md`](../../prompt-library/action-capture.md).
+Output contract: [`docs/skills/action-capture/SKILL.md`](../../docs/skills/action-capture/SKILL.md).
 
 ## Files
 
